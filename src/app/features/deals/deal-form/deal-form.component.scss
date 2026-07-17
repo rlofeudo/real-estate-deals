@@ -1,0 +1,52 @@
+.app-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.user-label {
+  margin-right: 0.75rem;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.9rem;
+}
+
+.page {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 1.75rem 1.25rem 2.5rem;
+}
+
+.deal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-top: 1rem;
+
+  input[readonly] {
+    color: var(--app-primary);
+    cursor: default;
+    font-weight: 600;
+  }
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.loading {
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+}
+
+.error-message {
+  color: var(--app-danger);
+  margin: 0.5rem 0;
+}

@@ -1,0 +1,98 @@
+@if (vm(); as vm) {
+  <mat-toolbar color="primary" class="app-toolbar">
+    <a mat-icon-button routerLink="/deals" aria-label="Back to deals">
+      <mat-icon>arrow_back</mat-icon>
+    </a>
+    <span>{{ vm.pageTitle }}</span>
+    <span class="spacer"></span>
+    <span class="user-label">{{ username() }}</span>
+    <button mat-button type="button" (click)="logout()">Logout</button>
+  </mat-toolbar>
+
+  <main class="page">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>{{ vm.pageTitle }}</mat-card-title>
+        <mat-card-subtitle>
+          Changes are kept in memory for this session only.
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        @if (vm.loading) {
+          <div class="loading">
+            <mat-spinner diameter="40"></mat-spinner>
+          </div>
+        } @else if (vm.error && !form.dirty) {
+          <p class="error-message" role="alert">{{ vm.error }}</p>
+          <a mat-stroked-button routerLink="/deals">Back to list</a>
+        } @else {
+          <form [formGroup]="form" (ngSubmit)="save()" class="deal-form">
+            <mat-form-field appearance="outline">
+              <mat-label>Deal name</mat-label>
+              <input matInput formControlName="name" />
+              @if (form.controls.name.touched && form.controls.name.hasError('required')) {
+                <mat-error>Deal name is required</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Purchase price ($)</mat-label>
+              <input matInput type="number" formControlName="purchasePrice" min="1" />
+              @if (form.controls.purchasePrice.touched && form.controls.purchasePrice.invalid) {
+                <mat-error>Enter a purchase price greater than 0</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Address</mat-label>
+              <input matInput formControlName="address" />
+              @if (form.controls.address.touched && form.controls.address.hasError('required')) {
+                <mat-error>Address is required</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>NOI — Net Operating Income ($)</mat-label>
+              <input matInput type="number" formControlName="noi" min="0" />
+              @if (form.controls.noi.touched && form.controls.noi.invalid) {
+                <mat-error>Enter a valid NOI (0 or greater)</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Cap rate (%)</mat-label>
+              <input
+                matInput
+                [value]="capRateDisplay()"
+                readonly
+                tabindex="-1"
+              />
+              <mat-hint>Calculated as NOI ÷ Purchase Price</mat-hint>
+            </mat-form-field>
+
+            @if (vm.error) {
+              <p class="error-message" role="alert">{{ vm.error }}</p>
+            }
+
+            <div class="actions">
+              <a mat-stroked-button routerLink="/deals">Cancel</a>
+              <button
+                mat-flat-button
+                color="primary"
+                type="submit"
+                [disabled]="vm.saving"
+              >
+                @if (vm.saving) {
+                  <mat-spinner diameter="20"></mat-spinner>
+                } @else {
+                  {{ vm.isEditMode ? 'Save changes' : 'Create deal' }}
+                }
+              </button>
+            </div>
+          </form>
+        }
+      </mat-card-content>
+    </mat-card>
+  </main>
+}
