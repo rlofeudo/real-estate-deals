@@ -20,7 +20,10 @@ Angular 17 example app for managing real estate deals with mock auth and an in-m
 ## Scripts
 
 ```bash
-npm start          # http://localhost:4200
-npm test           # Jest
-npm run build      # production build
+npm start              # Dev server at http://localhost:4200
+npm run build          # Production build
+npm run watch          # Rebuild on changes (development configuration)
+npm test               # Run Jest once
+npm run test:watch     # Jest in watch mode
+npm run test:coverage  # Jest with coverage report
 ```
